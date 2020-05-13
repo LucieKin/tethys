@@ -1,0 +1,30 @@
+int Micro = A0; //entrée annalogique du microphone
+int LED1 = 4; //Sorti numérique connecté à la LED1
+int LED2 = 3; //Sorti numérique connecté à la LED2
+int LED3 = 2; //Sorti numérique connecté à la LED3
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+}
+void loop() {
+  int valMicro = analogRead(Micro);
+  Serial.println(valMicro);
+  if (valMicro > 200)
+    digitalWrite(LED1, HIGH);
+
+  else
+    digitalWrite(LED1, LOW);
+  if (valMicro > 300)
+    digitalWrite(LED2, HIGH);
+
+  else
+    digitalWrite(LED2, LOW);
+  if (valMicro > 400)
+    digitalWrite(LED3, HIGH);
+
+  else
+    digitalWrite(LED3, LOW);
+}
