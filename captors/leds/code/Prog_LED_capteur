@@ -1,0 +1,269 @@
+
+#include <Adafruit_NeoPixel.h>
+
+/* Ruban LED */
+#define neoPin 4
+#define neoNbr 30
+
+/* Broches */
+const byte PIN_LED1_R = 3;
+const byte PIN_LED1_G = 2;
+const byte PIN_LED1_B = 1;
+
+const byte PIN_LED2_R = 7;
+const byte PIN_LED2_G = 6;
+const byte PIN_LED2_B = 5;
+
+const byte PIN_LED3_R = 10;
+const byte PIN_LED3_G = 9;
+const byte PIN_LED3_B = 8;
+
+const byte PIN_LED4_R = 13 ;
+const byte PIN_LED4_G = 12 ;
+const byte PIN_LED4_B = 11 ;
+
+/* Définition des couleurs */
+int RED[3] = {255, 0, 0}; // Couleur Rouge
+int GREEN[3] = {0, 255, 0}; // Couleur Verte
+int CYAN[3] = {0, 255, 255}; // Couleur Cyan
+int YELLOW[3] = {255, 125, 0}; // Couleur Jaune
+int ORANGE[3] = {255, 40, 0}; // Couleur Orange
+int PURPLE[3] = {255, 0 , 255}; // Couleur Violette
+int PINK[3] = {255, 0, 100}; // Couleur Rose
+int BLUE[3] = {0, 0, 255}; // Couleur Bleu
+int WHITE[3] = {255, 255, 255}; // Couleur Blanche
+int OFF[3] = {0, 0, 0}; // Éteint
+
+
+int neoLumin = 120; // Varier cette variable pour modifier la luninosité du ruban
+unsigned long t0, t1 = 0, t2 = 0, t3 = 0, t4 = 0; // toutes les tempos
+byte a, b, p = 0; // sert au calcul dans les anim
+int d = 1, e; // direction des anim
+uint32_t c;
+
+int redValue;
+int greenValue;
+int blueValue;
+
+#define delayTime 10 // temps de décoloration entre les couleurs
+
+#define DT 20
+
+Adafruit_NeoPixel neoStrip = Adafruit_NeoPixel(neoNbr, neoPin, NEO_GRB + NEO_KHZ800);
+
+
+void setup() {
+
+  neoStrip.begin();
+  neoStrip.show();
+
+  // Initialise les broches
+  pinMode(PIN_LED1_R, OUTPUT);
+  pinMode(PIN_LED1_G, OUTPUT);
+  pinMode(PIN_LED1_B, OUTPUT);
+
+  pinMode(PIN_LED2_R, OUTPUT);
+  pinMode(PIN_LED2_G, OUTPUT);
+  pinMode(PIN_LED2_B, OUTPUT);
+
+  pinMode(PIN_LED3_R, OUTPUT);
+  pinMode(PIN_LED3_G, OUTPUT);
+  pinMode(PIN_LED3_B, OUTPUT);
+
+  pinMode(PIN_LED4_R, OUTPUT);
+  pinMode(PIN_LED4_G, OUTPUT);
+  pinMode(PIN_LED4_B, OUTPUT);
+
+
+  Serial.begin(115200);
+
+}
+
+void loop() {
+
+  int V = capteur () ;
+  int W = capteur2 () ;
+
+  if ( V <= 300 ) {
+    silence() ;
+  }
+
+  if ( V <= 600 ) {
+    chuchotement () ;
+  }
+
+  if ( V <= 900) {
+    seduction() ;
+  }
+
+  if (V == 1023) {
+    joie (1) ;
+    neoStrip.show();
+  }
+
+  if (W == 1023) {
+    neoStrip.setBrightness(100);
+    presence(2, BLUE);
+  }
+}
+
+
+
+void silence() {
+  for (byte i = 0; i < neoNbr; i++)
+  {
+    c = random(0x1000000);
+    neoStrip.setPixelColor(i, c) ; // Toutes les LEDs en couleur aléatoire
+  }
+  neoStrip.show();
+  delay(500);
+
+  for (byte i = 0; i < neoNbr; i++)
+  {
+    neoStrip.setPixelColor(i, 0, 0, 0); // Toutes les LEDs sans couleur
+  }
+  neoStrip.show();
+  delay(500);
+}
+
+
+
+void chuchotement () {
+
+  digitalWrite(PIN_LED1_R, LOW);
+  digitalWrite(PIN_LED1_G, LOW);
+  digitalWrite(PIN_LED1_B, HIGH);
+
+  digitalWrite(PIN_LED2_R, LOW);
+  digitalWrite(PIN_LED2_G, LOW);
+  digitalWrite(PIN_LED2_B, HIGH);
+
+  digitalWrite(PIN_LED3_R, LOW);
+  digitalWrite(PIN_LED3_G, LOW);
+  digitalWrite(PIN_LED3_B, HIGH);
+
+  digitalWrite(PIN_LED4_R, LOW);
+  digitalWrite(PIN_LED4_G, LOW);
+  digitalWrite(PIN_LED4_B, HIGH);
+
+  delay(50) ;
+
+  digitalWrite(PIN_LED1_R, LOW);
+  digitalWrite(PIN_LED1_G, LOW);
+  digitalWrite(PIN_LED1_B, LOW);
+
+  digitalWrite(PIN_LED2_R, LOW);
+  digitalWrite(PIN_LED2_G, LOW);
+  digitalWrite(PIN_LED2_B, LOW);
+
+  digitalWrite(PIN_LED3_R, LOW);
+  digitalWrite(PIN_LED3_G, LOW);
+  digitalWrite(PIN_LED3_B, LOW);
+
+  digitalWrite(PIN_LED4_R, LOW);
+  digitalWrite(PIN_LED4_G, LOW);
+  digitalWrite(PIN_LED4_B, LOW);
+
+  delay(50) ;
+
+}
+
+
+void joie (int t) {
+  analogWrite(PIN_LED1_R, random(0, 255));
+  analogWrite(PIN_LED1_G, random(0, 255));
+  analogWrite(PIN_LED1_B, random(0, 255));
+  delay(10) ;
+  analogWrite(PIN_LED1_R, LOW);
+  analogWrite(PIN_LED1_G, LOW);
+  analogWrite(PIN_LED1_B, LOW);
+  delay(10) ;
+
+  analogWrite(PIN_LED2_R, random(0, 255));
+  analogWrite(PIN_LED2_G, random(0, 255));
+  analogWrite(PIN_LED2_B, random(0, 255));
+  delay(10) ;
+  analogWrite(PIN_LED2_R, LOW);
+  analogWrite(PIN_LED2_G, LOW);
+  analogWrite(PIN_LED2_B, LOW);
+  delay(10) ;
+
+  analogWrite(PIN_LED3_R, random(0, 255));
+  analogWrite(PIN_LED3_G, random(0, 255));
+  analogWrite(PIN_LED3_B, random(0, 255));
+  delay(10) ;
+  analogWrite(PIN_LED3_R, LOW);
+  analogWrite(PIN_LED3_G, LOW);
+  analogWrite(PIN_LED3_B, LOW);
+  delay(10) ;
+
+  analogWrite(PIN_LED4_R, random(0, 255));
+  analogWrite(PIN_LED4_G, random(0, 255));
+  analogWrite(PIN_LED4_B, random(0, 255));
+  delay(10) ;
+  analogWrite(PIN_LED4_R, LOW);
+  analogWrite(PIN_LED4_G, LOW);
+  analogWrite(PIN_LED4_B, LOW);
+  delay(10) ;
+
+  t0 = millis();
+  c = random(0x1000000); // choix d'une couleur aléatoire
+  if (t0 > t2) {
+    neoStrip.setPixelColor(a, 0);
+    if (a == 0) a = neoNbr + 1;
+    a--;
+    neoStrip.setPixelColor(a, c);
+    t2 = t0 + t;
+  }
+}
+
+
+void seduction () {
+
+  digitalWrite(PIN_LED1_R, HIGH);
+  digitalWrite(PIN_LED2_R, HIGH);
+  digitalWrite(PIN_LED3_R, HIGH);
+  digitalWrite(PIN_LED4_R, HIGH);
+
+}
+
+
+void presence(int temps, int COLOR[])
+{
+  for (int lumi = 0 ; lumi < 100 ; lumi++)
+  {
+    for (int i = 0 ; i < 30 ; i++)
+    {
+      neoStrip.setPixelColor(i, COLOR[0], COLOR[1], COLOR[2]);
+    }
+    neoStrip.setBrightness(lumi);
+    neoStrip.show();
+    delay(temps);
+  }
+}
+
+int capteur () {
+  long t = millis() + DT;
+  long V = 0;
+
+  while ( millis() < t) {
+    V = max(analogRead(A0), V);
+  }
+  Serial.print(V);
+  Serial.println(" Valeur de V ");
+  return V ;
+
+}
+
+int capteur2 () {
+  long t = millis() + DT;
+  long W = 0;
+
+  while ( millis() < t) {
+    W = max(analogRead(A1), W);
+  }
+  Serial.print(W);
+  Serial.println(" Valeur de W ");
+  return W ;
+
+}
