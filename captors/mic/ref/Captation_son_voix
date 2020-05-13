@@ -1,0 +1,48 @@
+#define NB_SAMPLES 50
+
+uint32_t samples[NB_SAMPLES] ;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void filtre(uint32_t tab[], uint32_t sz) {
+  int n = 3;
+  uint32_t sum ;
+
+  for (int i = 0; i < sz; i++)
+  {
+    sum = 0;
+
+    for (int j = i - n / 2; j <= i + n / 2; j++)
+    {
+      if (j >= 0 && j < sz)
+        sum += tab[j];
+    }
+    tab[i] = sum / n;
+  }
+}
+
+void affiche(uint32_t tab[], uint32_t sz, char *msg) {
+  if ( msg != NULL ) Serial.println(msg) ;
+  
+  for ( int i = 0 ; i < NB_SAMPLES ; i++ ) {
+    Serial.print(1023) ; 
+    Serial.print(" ") ;
+    Serial.println(samples[i]) ;
+  }
+}
+
+
+void loop() {
+  for ( int i = 0 ; i < NB_SAMPLES ; i++ ) {
+    samples[i] = analogRead(A0) ;
+  }
+
+  affiche(samples, NB_SAMPLES, NULL) ;
+  Serial.println() ;
+  filtre(samples, NB_SAMPLES) ;
+  affiche(samples, NB_SAMPLES, NULL) ;
+  Serial.println() ;
+  Serial.println() ;
+}
