@@ -1,0 +1,40 @@
+int pinLed1, pinLed2, pinLed3; pinLed4; //on peut déclarer plusieurs variables
+void setup()
+{
+  //initialisation des variables
+  pinLed1 = 2;
+  pinLed2 = 3;
+  pinLed3 = 4;
+  pinLed4 = 5 ;
+  //initialisation des modes
+  pinMode(pinLed1, OUTPUT);
+  pinMode(pinLed2, OUTPUT);
+  pinMode(pinLed3, OUTPUT);
+  pinMode(pinLed4, OUTPUT);
+  //mise à 0V de chaque pin
+  digitalWrite(pinLed1, LOW);
+  digitalWrite(pinLed2, LOW);
+  digitalWrite(pinLed3, LOW);
+  digitalWrite(pinLed4, LOW);
+}
+void loop()
+{
+  //test allumage et repérage des lEDs
+  digitalWrite(pinLed1, HIGH);
+  delay(500);
+  digitalWrite(pinLed2, HIGH);
+  delay(500);
+  digitalWrite(pinLed3, HIGH);
+  delay(500);
+  digitalWrite(pinLed4, HIGH);
+  delay(500);
+  //on éteint tout
+  digitalWrite(pinLed1, LOW);
+  digitalWrite(pinLed2, LOW);
+  digitalWrite(pinLed3, LOW);
+  digitalWrite(pinLed4, LOW);
+  delay(500);
+}
+
+//Analog = valeur de tension
+//Les autres = on peut décider de mettre du courant ou pas
