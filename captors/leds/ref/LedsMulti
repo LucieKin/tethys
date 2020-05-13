@@ -1,0 +1,91 @@
+// déclaration
+#define DELTA_T 100 // Nombre de frame par count
+#define N_MAX 3
+
+int pinLed1, pinLed2, pinLed3; //variables des pins
+int brightness = 0;    // how bright the LED is
+int fadeAmount = 5;    // how many points to fade the LED by
+
+unsigned long t0, t; // Timer
+
+void setup()
+{
+  //initialisation des variables
+  pinLed1 = 2;
+  pinLed2 = 3;
+  pinLed3 = 4;
+  //initialisation des modes
+  pinMode(pinLed1, OUTPUT);
+  pinMode(pinLed2, OUTPUT);
+  pinMode(pinLed3, OUTPUT);
+  /*  //mise à 0V de chaque pin
+    digitalWrite(pinLed1, LOW);
+    digitalWrite(pinLed2, LOW);
+    digitalWrite(pinLed3, LOW); */
+}
+void loop() {
+
+  /*  // set the brightness of pins:
+    analogWrite(pinLed1, brightness);
+    analogWrite(pinLed2, brightness);
+    analogWrite(pinLed3, brightness); */
+
+  // change the brightness for next time through the loop:
+  brightness = brightness + fadeAmount;
+
+  // reverse the direction of the fading at the ends of the fade:
+  if (brightness <= 0 || brightness >= 255) {
+    fadeAmount = -fadeAmount;
+  }
+  // wait for 30 milliseconds to see the dimming effect
+  delay(30);
+
+  // Timer
+  t = millis();
+  if (t - t0 >= DELTA_T) {
+    t0 += DELTA_T;
+    /*for (i = 0; i < N; i++) {
+      }*/
+    for (int temps = 1000; temps >= 200; temps -= 200)
+    {
+      analogWrite(pinLed1, brightness);
+      delay(temps);
+      analogWrite(pinLed2, brightness);
+      delay(temps);
+      analogWrite(pinLed3, brightness);
+      delay(temps);
+    }
+  }
+
+/*  //Boucle de la variable temps qui diminue
+  for (int temps = 1000; temps >= 200; temps -= 200)
+  {
+    analogWrite(pinLed1, brightness);
+    delay(temps);
+    analogWrite(pinLed2, brightness);
+    delay(temps);
+    analogWrite(pinLed3, brightness);
+    delay(temps);
+  } */
+
+  /*
+
+    for (int temps = 1000; temps >= 200; temps -= 200)
+    {
+    //les trois LEDs sont éteintes
+    digitalWrite(pinLed1, HIGH);//allumage LED 1
+    delay(temps); // pendant la valeur de temps
+    digitalWrite(pinLed1,LOW); //on éteint la 1
+    delay(100); // court délai, tout est éteint
+    digitalWrite(pinLed2, HIGH);//allumage LED 2
+    delay(temps); // pendant la valeur de temps
+    digitalWrite(pinLed2,LOW); //on éteint la 2
+    delay(100);
+    digitalWrite(pinLed3, HIGH);//allumage de LED 3
+    delay(temps); // pendant la valeur de temps
+    digitalWrite(pinLed3, LOW); // on éteint 3
+    delay(100);
+    //la boucle reprend
+    }
+    //retour au début de la loop(); */
+}
