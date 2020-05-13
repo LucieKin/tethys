@@ -1,0 +1,21 @@
+int pump = 6;
+int pumpB = 7;
+
+// the setup function runs once when you press reset or power the board
+void setup() {
+  pinMode(pump, OUTPUT);
+  pinMode(pumpB, OUTPUT);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(pump, HIGH);   // turn the PUMP on (HIGH is the voltage level)
+  delay(500);                       // wait for a second
+  digitalWrite(pump, LOW);    // turn the PUMP off by making the voltage LOW
+  delay(3000);                       // wait for a second
+
+  digitalWrite(pumpB, HIGH);   // turn the PUMP on (HIGH is the voltage level)
+  delay(500);                       // wait for a second
+  digitalWrite(pumpB, LOW);    // turn the PUMP off by making the voltage LOW
+  delay(2000);                       // wait for a second
+}
