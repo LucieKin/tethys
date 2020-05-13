@@ -1,0 +1,38 @@
+int soundSensor = A0;
+int LED = 3;
+
+
+void setup() {
+  pinMode (soundSensor, INPUT);
+  pinMode (LED, OUTPUT);
+}
+
+void loop() {
+  int j;
+  j = (528 - analogRead(A0)) * 2; // Change Sensitivity
+  if (j < 0)
+    j = -j;
+  if (j < 29) {
+    for (int i = 0; i <= j; i++) {
+      if (i > 20){
+        digitalWrite(LED, HIGH);
+      }if (i < 20){
+        digitalWrite(LED, LOW);
+      }else{
+        digitalWrite(LED, LOW);
+      }
+    }
+    /*for (int i = j; i <= 29; i++) 
+  {
+     digitalWrite(LED, LOW);
+  }*/
+  }
+
+  /*int statusSensor = digitalRead (soundSensor);
+  if (statusSensor == 1)
+  {
+    digitalWrite(LED, HIGH);
+  } else {
+    digitalWrite(LED, LOW);
+  }*/
+}
